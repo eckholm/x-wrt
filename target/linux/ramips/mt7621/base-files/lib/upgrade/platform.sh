@@ -106,11 +106,6 @@ platform_do_upgrade() {
 	raisecom,msg1500-x-00|\
 	sercomm,na502|\
 	sercomm,na502s|\
-	xwrt,nxc2009e-v100|\
-	xwrt,fm10-ax-nand|\
-	xwrt,wr1800k-ax-nand)
-		nand_do_upgrade "$1"
-		;;
 	xiaomi,mi-router-3g|\
 	xiaomi,mi-router-3-pro|\
 	xiaomi,mi-router-4|\
@@ -119,6 +114,13 @@ platform_do_upgrade() {
 	xiaomi,mi-router-cr6608|\
 	xiaomi,mi-router-cr6609|\
 	xiaomi,mi-router-cr660x|\
+	xwrt,nxc2009e-v100|\
+	xwrt,fm10-ax-nand|\
+	xwrt,wr1800k-ax-nand|\
+	zyxel,nwa50ax|\
+	zyxel,nwa55axe)
+		nand_do_upgrade "$1"
+		;;
 	xiaomi,redmi-router-ac2100)
 		# this make it compatible with breed
 		dd if=/dev/mtd0 bs=64 count=1 2>/dev/null | grep -qi breed && CI_KERNPART_EXT="kernel_stock"
