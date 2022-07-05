@@ -129,6 +129,18 @@
 	};
 };
 
+&gmac1 {
+	status = "okay";
+	label = "wan";
+	phy-handle = <&ethphy4>;
+};
+
+&mdio {
+	ethphy4: ethernet-phy@4 {
+		reg = <4>;
+	};
+};
+
 &switch0 {
 	ports {
 		port@1 {
@@ -145,18 +157,6 @@
 			status = "okay";
 			label = "lan3";
 		};
-
-		port@4 {
-			status = "okay";
-			label = "wan";
-		};
-	};
-};
-
-&state_default {
-	gpio {
-		groups = "uart3", "jtag";
-		function = "gpio";
 	};
 };
 
