@@ -2,7 +2,9 @@
 name: X-Wrt
 
 on:
-  workflow_dispatch:
+  push:
+    tags:        
+      - 'v*'
         
 jobs:
   Fconfig: 
