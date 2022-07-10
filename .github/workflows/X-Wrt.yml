@@ -89,10 +89,10 @@ jobs:
         if: failure()
         with:
           name: ${{ matrix.config }}-build-failure-log
-          path: nuexini/make-error.log
+          path: make-error.log
         
       - name: Upload Firmware
         uses: actions/upload-artifact@master
         with:
           name: ${{ matrix.config }}-Firmware
-          path: nuexini/artifact/firmware
+          path: artifact/firmware
