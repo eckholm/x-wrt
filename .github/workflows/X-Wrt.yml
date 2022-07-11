@@ -3,8 +3,8 @@ name: X-Wrt
 
 on:
   push:
-    tags:        
-      - 'v*'
+    paths:
+      - 'shell/version'
         
 jobs:
   Fconfig: 
