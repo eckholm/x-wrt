@@ -1,0 +1,66 @@
+diff --git a/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3g.dts b/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3g.dts
+index 7bf447adbf..1a19579208 100644
+--- a/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3g.dts
++++ b/target/linux/ramips/dts/mt7621_xiaomi_mi-router-3g.dts
+@@ -88,47 +88,25 @@
+ &gmac0 {
+ 	nvmem-cells = <&macaddr_factory_e006>;
+ 	nvmem-cell-names = "mac-address";
+-	phy-mode = "trgmii";
+ };
+ 
+ &switch0 {
+-	/* must delete compatible property */
+-	/delete-property/ compatible;
+-};
+-
+-&gsw {
+-	compatible = "mediatek,mt753x";
+-	status = "okay";
+-
+-	mediatek,mdio = <&mdio>;
+-	mediatek,portmap = "llllw";
+-	mt7530,direct-phy-access;
+-	resets = <&rstctrl 2>;
+-	reset-names = "mcm";
+-	mediatek,mcm;
++	ports {
++		port@1 {
++			status = "okay";
++			label = "wan";
++			nvmem-cells = <&macaddr_factory_e000>;
++			nvmem-cell-names = "mac-address";
++		};
+ 
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+-
+-	/*
+-	port5: port@5 {
+-		compatible = "mediatek,mt753x-port";
+-		reg = <5>;
+-		phy-mode = "rgmii";
+-		fixed-link {
+-			speed = <1000>;
+-			full-duplex;
++		port@2 {
++			status = "okay";
++			label = "lan2";
+ 		};
+-	};
+-	*/
+-
+-	port6: port@6 {
+-		compatible = "mediatek,mt753x-port";
+-		reg = <6>;
+-		phy-mode = "trgmii";
+-		fixed-link {
+-			speed = <1000>;
+-			full-duplex;
++
++		port@3 {
++			status = "okay";
++			label = "lan1";
+ 		};
+ 	};
+ };
