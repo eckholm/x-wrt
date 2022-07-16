@@ -34,9 +34,9 @@
  #define MT7621_LOWMEM_BASE		0x0
  #define MT7621_LOWMEM_MAX_SIZE		0x1C000000
  #define MT7621_HIGHMEM_BASE		0x20000000
---- a/arch/mips/include/asm/mach-ralink/mt7621.c
-+++ b/arch/mips/include/asm/mach-ralink/mt7621.c
-@@ -9,12 +9,17 @@
+--- a/arch/mips/ralink/mt7621.c
++++ b/arch/mips/ralink/mt7621.c
+@@ -9,6 +9,10 @@
  #include <linux/init.h>
  #include <linux/slab.h>
  #include <linux/sys_soc.h>
@@ -44,19 +44,20 @@
 +#include <linux/clkdev.h>
 +#include <linux/clk-provider.h>
 +#include <dt-bindings/clock/mt7621-clk.h>
+ #include <linux/memblock.h>
  
- #include <asm/mipsregs.h>
- #include <asm/smp-ops.h>
+ #include <asm/bootinfo.h>
+@@ -17,6 +21,7 @@
  #include <asm/mips-cps.h>
  #include <asm/mach-ralink/ralink_regs.h>
  #include <asm/mach-ralink/mt7621.h>
 +#include <asm/time.h>
  
- #include <pinmux.h>
+ #include "common.h"
  
-@@ -105,11 +110,103 @@ static struct rt2880_pmx_group mt7621_pinmux_data[] = {
- 	{ 0 }
- };
+@@ -24,11 +29,102 @@
+ 
+ static u32 detect_magic __initdata;
  
 +static struct clk *clks[MT7621_CLK_MAX];
 +static struct clk_onecell_data clk_data = {
@@ -154,10 +155,9 @@
 +
 +CLK_OF_DECLARE(mt7621, "mediatek,mt7621-pll", mt7621_clocks_init_dt);
 +
-+
- void __init ralink_of_remap(void)
+ static bool __init mt7621_addr_wraparound_test(phys_addr_t size)
  {
- 	rt_sysc_membase = plat_of_remap_node("mtk,mt7621-sysc");
+ 	void *dm = (void *)KSEG1ADDR(&detect_magic);
 --- a/arch/mips/ralink/timer-gic.c
 +++ b/arch/mips/ralink/timer-gic.c
 @@ -9,14 +9,14 @@
