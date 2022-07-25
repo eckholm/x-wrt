@@ -19,6 +19,7 @@ natflow_onoff() {
 	
 	echo disabled=$((!enabled)) >/dev/natflow_ctl
 	echo hwnat=$hwnat >/dev/natflow_ctl
+	/etc/init.d/natflow-boot reload
 }
 
 start_service() {
