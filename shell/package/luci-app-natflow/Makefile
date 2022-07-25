@@ -11,12 +11,16 @@ PKG_NAME:=luci-app-natflow
 PKG_VERSION:=2022.07.25
 PKG_RELEASE:=1
 
-LUCI_CATEGORY:=X
-LUCI_SUBMENU:=Fast Forward Stacks
-LUCI_TITLE:=LuCI Support for natflow
-LUCI_PKGARCH:=all
-LUCI_DEPENDS:=natflow-boot +kmod-nft-fullcone
+define Package/$(PKG_NAME)
+	CATEGORY:=X
+	SUBMENU:=Fast Forward Stacks
+	TITLE:=LuCI Support for natflow
+	PKGARCH:=all
+	DEPENDS:=natflow-boot +kmod-nft-fullcone
+endef
 
-include $(TOPDIR)/feeds/luci/luci.mk
+define Package/$(PKG_NAME)/description
+	LuCI Support for natflow
+endef
 
-# call BuildPackage - OpenWrt buildroot signature
+$(eval $(call BuildPackage,$(PKG_NAME)))
