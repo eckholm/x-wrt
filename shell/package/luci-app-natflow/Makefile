@@ -13,7 +13,7 @@ PKG_RELEASE:=1
 
 LUCI_TITLE:=LuCI Support for natflow
 LUCI_PKGARCH:=all
-LUCI_DEPENDS:=natflow-boot +kmod-nft-fullcone
+LUCI_DEPENDS:=+natflow-boot +kmod-nft-fullcone
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
