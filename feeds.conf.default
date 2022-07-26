@@ -7,4 +7,3 @@ src-git-full x https://github.com/x-wrt/com.x-wrt.git
 #src-git-full targets https://github.com/openwrt/targets.git
 #src-git-full oldpackages http://git.openwrt.org/packages.git
 #src-link custom /usr/src/openwrt/custom-feed
-src-link natflow ./shell/package/luci-app-natflow
