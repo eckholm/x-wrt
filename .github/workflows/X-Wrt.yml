@@ -72,13 +72,37 @@ jobs:
           
           bash $GITHUB_WORKSPACE/shell/scripts/Hi_NueXini.sh
           
-          make defconfig
           make download -j8
           rm -rf $(find ./dl/ -size -1024c)
+      
+      - name: Parse toolchain file
+        run: |
+          grep '^CONFIG_TARGET_BOARD' .config | cut -d '"' -f 2 >NX_TARGET_BOARD
+          grep '^CONFIG_TARGET_SUBTARGET' .config | cut -d '"' -f 2 >NX_TARGET_SUBTARGET
+          curl -s "https://downloads.openwrt.org/snapshots/targets/$(cat NX_TARGET_BOARD)/$(cat NX_TARGET_SUBTARGET)/sha256sums" \
+            | sed -n -e 's/.*\(openwrt-toolchain.*\).tar.xz/\1/p' >NX_TOOLCHAIN_FILE
+            
+      - name: Download external toolchain
+        run: |
+          wget -q -O - https://downloads.openwrt.org/snapshots/targets/$(cat NX_TARGET_BOARD)/$(cat NX_TARGET_SUBTARGET)/$(cat NX_TOOLCHAIN_FILE).tar.xz \
+            | tar --xz -xf -
+            
+      - name: Configure external toolchain
+        run: |
+          ./scripts/ext-toolchain.sh \
+            --toolchain ${{ env.TOOLCHAIN_FILE }}/toolchain-* \
+            --config $(cat NX_TARGET_BOARD)/$(cat NX_TOOLCHAIN_FILE)
+          make defconfig
+          
+      - name: Build tools
+        run: make tools/install -j$(nproc)
+          
+      - name: Build toolchain
+        run: make toolchain/install -j$(nproc)
           
       - name: Build
         run: |
-          make -j8 || make -j1 V=sc > ./make-error.log 2>&1
+          make -j$(nproc) || make -j1 V=sc > ./make-error.log 2>&1
           
           mkdir -p ./artifact/firmware
           
