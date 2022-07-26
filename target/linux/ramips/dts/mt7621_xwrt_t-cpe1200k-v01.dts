@@ -209,12 +209,9 @@
 	compatible = "mediatek,ralink-mt7621-gsw";
 };
 
-&pinctrl {
-	state_default: pinctrl0 {
-		gpio {
-			groups = "wdt", "rgmii2", "uart2", "uart3";
-			function = "gpio";
-		};
+&rgmii2_pins {
+	rgmii2 {
+		function = "gpio";
 	};
 };
 

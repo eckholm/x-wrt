@@ -145,12 +145,9 @@
 	};
 };
 
-&pinctrl {
-	state_default: pinctrl0 {
-		gpio {
-			groups = "i2c", "wdt", "rgmii2", "jtag";
-			function = "gpio";
-		};
+&rgmii2_pins {
+	rgmii2 {
+		function = "gpio";
 	};
 };
 

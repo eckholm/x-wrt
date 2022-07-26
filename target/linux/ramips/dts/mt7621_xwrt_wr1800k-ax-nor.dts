@@ -202,12 +202,12 @@
 		};
 	};
 	*/
-        port5: port@5 {
+	port5: port@5 {
 		compatible = "mediatek,mt753x-port";
 		reg = <5>;
 		phy-mode = "rgmii";
 		phy-address = <0x4>;
-        };
+	};
 
 	port6: port@6 {
 		compatible = "mediatek,mt753x-port";

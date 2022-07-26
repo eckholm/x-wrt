@@ -152,12 +152,9 @@
 	};
 };
 
-&pinctrl {
-	state_default: pinctrl0 {
-		gpio {
-			groups = "wdt", "rgmii2", "jtag";
-			function = "gpio";
-		};
+&rgmii2_pins {
+	rgmii2 {
+		function = "gpio";
 	};
 };
 
