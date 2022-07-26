@@ -89,8 +89,9 @@ jobs:
             
       - name: Configure external toolchain
         run: |
-          ./scripts/ext-toolchain.sh \
-            --toolchain ${{ env.TOOLCHAIN_FILE }}/toolchain-* \
+          bash ./scripts/ext-toolchain.sh \
+            --toolchain $(cat NX_TOOLCHAIN_FILE)/toolchain-* \
+            --overwrite-config \
             --config $(cat NX_TARGET_BOARD)/$(cat NX_TOOLCHAIN_FILE)
           make defconfig
           
