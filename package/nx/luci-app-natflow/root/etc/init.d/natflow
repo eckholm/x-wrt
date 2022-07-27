@@ -4,12 +4,13 @@ USE_PROCD=1
 
 START=99
 
-natflow_onoff() {
+natflow_onoff()
+{
 	config_get_bool enabled "$1" enabled 1
 	config_get_bool hwnat "$1" hwnat 1
 	config_get_bool fullconenat "$1" fullconenat 1
 	
-	[ ! -e "/lib/modules/$(uname -r)/nft_FULLCONENAT.ko" ] && fullconenat="0"
+	[ ! -e "/lib/modules/$(uname -r)/nft_fullcone.ko" ] && fullconenat="0"
 	
 	uci set firewall.@defaults[0].flow_offloading=$((!enabled))
 	uci set firewall.@defaults[0].flow_offloading_hw=$((!enabled))
@@ -22,11 +23,13 @@ natflow_onoff() {
 	/etc/init.d/natflow-boot reload
 }
 
-start_service() {
+start_service()
+{
 	config_load "natflow"
-	config_foreach natflow_onoff main
+	config_foreach natflow_onoff natflow
 }
 
-service_triggers() {
+service_triggers()
+{
 	procd_add_reload_trigger "natflow"
 }

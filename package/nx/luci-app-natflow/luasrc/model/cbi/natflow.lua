@@ -1,7 +1,7 @@
 
 m = Map("natflow", translate("Advanced Options"))
 
-s = m:section(TypedSection, "main")
+s = m:section(TypedSection, "natflow")
 s.addremove = false
 s.anonymous = true
 

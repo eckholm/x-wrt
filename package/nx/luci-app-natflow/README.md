@@ -1,1 +1,0 @@
-**Only works on [https://github.com/NxQAQVQ/x-wrt](https://github.com/NxQAQVQ/x-wrt)**

@@ -1,6 +1,9 @@
 msgid "Advanced Options"
 msgstr "高级选项"
 
+msgid "System Settings"
+msgstr "系统设置"
+
 msgid "Full Cone Nat"
 msgstr "全锥形NAT"
 
