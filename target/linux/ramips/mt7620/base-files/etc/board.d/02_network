@@ -307,7 +307,7 @@ ramips_setup_macs()
 		;;
 	asus,rt-ac51u|\
 	asus,rt-ac54u)
-		lan_mac=$(mtd_get_mac_binary factory 0x22)
+		lan_mac=$(macaddr_add "$(mtd_get_mac_binary factory 0x28)" 4)
 		;;
 	dlink,dch-m225)
 		lan_mac=$(mtd_get_mac_ascii factory lanmac)
@@ -407,6 +407,7 @@ ramips_setup_macs()
 		;;
 	esac
 
+	[ -n "$lan_mac" ] || lan_mac=$(cat /sys/class/net/eth0/address)
 	[ -n "$lan_mac" ] && ucidef_set_interface_macaddr "lan" $lan_mac
 	[ -n "$wan_mac" ] && ucidef_set_interface_macaddr "wan" $wan_mac
 	[ -n "$label_mac" ] && ucidef_set_label_macaddr $label_mac
