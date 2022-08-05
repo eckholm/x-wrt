@@ -75,28 +75,51 @@ jobs:
           make download -j8
           rm -rf $(find ./dl/ -size -1024c)
       
-      - name: Parse toolchain file
+      - name: Parse SDK file
         run: |
           grep '^CONFIG_TARGET_BOARD' .config | cut -d '"' -f 2 >NX_TARGET_BOARD
           grep '^CONFIG_TARGET_SUBTARGET' .config | cut -d '"' -f 2 >NX_TARGET_SUBTARGET
           curl -s "https://downloads.openwrt.org/snapshots/targets/$(cat NX_TARGET_BOARD)/$(cat NX_TARGET_SUBTARGET)/sha256sums" \
-            | sed -n -e 's/.*\(openwrt-toolchain.*\).tar.xz/\1/p' >NX_TOOLCHAIN_FILE
+            | sed -n -e 's/.*\(openwrt-sdk.*\).tar.xz/\1/p' >NX_SDK_FILE
             
-      - name: Download external toolchain
+      - name: Download SDK
         run: |
-          wget -q -O - https://downloads.openwrt.org/snapshots/targets/$(cat NX_TARGET_BOARD)/$(cat NX_TARGET_SUBTARGET)/$(cat NX_TOOLCHAIN_FILE).tar.xz \
+          wget -q -O - https://downloads.openwrt.org/snapshots/targets/$(cat NX_TARGET_BOARD)/$(cat NX_TARGET_SUBTARGET)/$(cat NX_SDK_FILE).tar.xz \
             | tar --xz -xf -
-            
+      
+      - name: Configure tools
+        run: |
+          mv -f $(cat NX_SDK_FILE)/build_dir ./
+          mv -f $(cat NX_SDK_FILE)/staging_dir ./
+          mkdir -p staging_dir/host/stamp
+          tools_name="$(ls -F ./tools/ | grep "/$")"
+          for a in ${tools_name}; do
+              if [ "${a}" != 'include/' ]; then
+                  PKG_NAME=$(cat "./tools/${a}Makefile" | grep '^PKG_NAME' | cut -d '=' -f 2 | sed 's/^[ \t]*//g')
+                  PKG_VERSION=$(cat "./tools/${a}Makefile" | grep '^PKG_VERSION' | cut -d '=' -f 2 | sed 's/^[ \t]*//g')
+                  
+                  touch staging_dir/host/stamp/.${PKG_NAME}_installed
+                  
+                  mkdir -p build_dir/host/${PKG_NAME}-${PKG_VERSION}
+                  
+                  prepared_md5=$(stat -c %Y "./tools/${a}" | md5sum | cut -d ' ' -f 1)
+                  
+                  touch build_dir/host/${PKG_NAME}-${PKG_VERSION}/.prepared${prepared_md5}
+                  touch build_dir/host/${PKG_NAME}-${PKG_VERSION}/.configured
+                  touch build_dir/host/${PKG_NAME}-${PKG_VERSION}/.built
+                  
+              fi
+          done
+        
       - name: Configure external toolchain
         run: |
+          basename $(ls staging_dir | grep '^toolchain') >NX_TOOLCHAIN_FILE
+          mv -f ./staging_dir/ ./
           bash ./scripts/ext-toolchain.sh \
             --toolchain $(cat NX_TOOLCHAIN_FILE)/toolchain-* \
             --overwrite-config \
             --config $(cat NX_TARGET_BOARD)/$(cat NX_TOOLCHAIN_FILE)
           make defconfig
-          
-      - name: Build tools
-        run: make tools/install -j$(nproc)
           
       - name: Build toolchain
         run: make toolchain/install -j$(nproc)
