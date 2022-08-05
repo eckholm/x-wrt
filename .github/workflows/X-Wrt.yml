@@ -81,6 +81,7 @@ jobs:
           grep '^CONFIG_TARGET_SUBTARGET' .config | cut -d '"' -f 2 >NX_TARGET_SUBTARGET
           curl -s "https://downloads.openwrt.org/snapshots/targets/$(cat NX_TARGET_BOARD)/$(cat NX_TARGET_SUBTARGET)/sha256sums" \
             | sed -n -e 's/.*\(openwrt-sdk.*\).tar.xz/\1/p' >NX_SDK_FILE
+          cat NX_SDK_FILE
             
       - name: Download SDK
         run: |
@@ -89,8 +90,8 @@ jobs:
       
       - name: Configure tools
         run: |
-          mv -f $(cat NX_SDK_FILE)/build_dir ./
-          mv -f $(cat NX_SDK_FILE)/staging_dir ./
+          cp -rf $(cat NX_SDK_FILE)/build_dir ./
+          cp -rf $(cat NX_SDK_FILE)/staging_dir ./
           mkdir -p staging_dir/host/stamp
           tools_name="$(ls -F ./tools/ | grep "/$")"
           for a in ${tools_name}; do
@@ -114,7 +115,7 @@ jobs:
       - name: Configure external toolchain
         run: |
           basename $(ls staging_dir | grep '^toolchain') >NX_TOOLCHAIN_FILE
-          mv -f ./staging_dir/ ./
+          mv -f ./staging_dir/$(cat NX_TOOLCHAIN_FILE) ./
           bash ./scripts/ext-toolchain.sh \
             --toolchain $(cat NX_TOOLCHAIN_FILE)/toolchain-* \
             --overwrite-config \
