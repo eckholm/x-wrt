@@ -114,12 +114,10 @@ jobs:
         
       - name: Configure external toolchain
         run: |
-          basename $(ls staging_dir | grep '^toolchain') >NX_TOOLCHAIN_FILE
-          mv -f ./staging_dir/$(cat NX_TOOLCHAIN_FILE) ./
           bash ./scripts/ext-toolchain.sh \
-            --toolchain $(cat NX_TOOLCHAIN_FILE)/toolchain-* \
+            --toolchain staging_dir/toolchain-* \
             --overwrite-config \
-            --config $(cat NX_TARGET_BOARD)/$(cat NX_TOOLCHAIN_FILE)
+            --config $(cat NX_TARGET_BOARD)/$(cat NX_TARGET_SUBTARGET)
           make defconfig
           
       - name: Build toolchain
