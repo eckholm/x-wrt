@@ -61,9 +61,8 @@
 	flash@0 {
 		compatible = "jedec,spi-nor";
 		reg = <0>;
-		spi-max-frequency = <80000000>;
+		spi-max-frequency = <50000000>;
 		broken-flash-reset;
-		m25p,fast-read;
 
 		partitions {
 			compatible = "fixed-partitions";
@@ -109,15 +108,15 @@
 &gmac1 {
 	status = "okay";
 	label = "ethyellow";
-	phy-handle = <&ethphy7>;
+	phy-handle = <&ethphy5>;
 
 	nvmem-cells = <&macaddr_factory_e000>;
 	nvmem-cell-names = "mac-address";
 };
 
 &mdio {
-	ethphy7: ethernet-phy@7 {
-		reg = <7>;
+	ethphy5: ethernet-phy@5 {
+		reg = <5>;
 		phy-mode = "rgmii-rxid";
 	};
 };
