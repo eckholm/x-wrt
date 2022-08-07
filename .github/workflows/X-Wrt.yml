@@ -91,6 +91,7 @@ jobs:
       - name: Configure tools
         run: |
           cp -rf $(cat NX_SDK_FILE)/staging_dir ./
+          bash ./shell/scripts/fixtools.sh
         
       - name: Configure external toolchain
         run: |
