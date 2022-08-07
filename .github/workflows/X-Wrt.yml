@@ -66,7 +66,7 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
           
-      - name: Patch
+      - name: Configure .config
         run: |
           cp -f $GITHUB_WORKSPACE/shell/config/${{ matrix.config }} .config
           
@@ -90,27 +90,7 @@ jobs:
       
       - name: Configure tools
         run: |
-          cp -rf $(cat NX_SDK_FILE)/build_dir ./
           cp -rf $(cat NX_SDK_FILE)/staging_dir ./
-          mkdir -p staging_dir/host/stamp
-          tools_name="$(ls -F ./tools/ | grep "/$")"
-          for a in ${tools_name}; do
-              if [ "${a}" != 'include/' ]; then
-                  PKG_NAME=$(cat "./tools/${a}Makefile" | grep '^PKG_NAME' | cut -d '=' -f 2 | sed 's/^[ \t]*//g')
-                  PKG_VERSION=$(cat "./tools/${a}Makefile" | grep '^PKG_VERSION' | cut -d '=' -f 2 | sed 's/^[ \t]*//g')
-                  
-                  touch staging_dir/host/stamp/.${PKG_NAME}_installed
-                  
-                  mkdir -p build_dir/host/${PKG_NAME}-${PKG_VERSION}
-                  
-                  prepared_md5=$(stat -c %Y "./tools/${a}" | md5sum | cut -d ' ' -f 1)
-                  
-                  touch build_dir/host/${PKG_NAME}-${PKG_VERSION}/.prepared${prepared_md5}
-                  touch build_dir/host/${PKG_NAME}-${PKG_VERSION}/.configured
-                  touch build_dir/host/${PKG_NAME}-${PKG_VERSION}/.built
-                  
-              fi
-          done
         
       - name: Configure external toolchain
         run: |
@@ -135,11 +115,11 @@ jobs:
         uses: actions/upload-artifact@master
         if: failure()
         with:
-          name: ${{ matrix.config }}-build-failure-log
+          name: ${{ matrix.config }}
           path: make-error.log
         
       - name: Upload Firmware
         uses: actions/upload-artifact@master
         with:
-          name: ${{ matrix.config }}-Firmware
+          name: ${{ matrix.config }}
           path: artifact/firmware
