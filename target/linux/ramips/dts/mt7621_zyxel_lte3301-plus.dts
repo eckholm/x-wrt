@@ -152,12 +152,10 @@
 	pinctrl-0 = <&mdio_pins>, <&rgmii1_pins>;
 };
 
-&state_default {
-	gpio {
-		groups = "i2c", "rgmii2", "uart3", "jtag", "wdt";
+&rgmii2_pins {
+	rgmii2 {
 		function = "gpio";
 	};
-
 };
 
 &gmac0 {
