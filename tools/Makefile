@@ -39,7 +39,7 @@ endif
 # tools-$(CONFIG_USE_SPARSE) += sparse
 # tools-$(CONFIG_USE_LLVM_BUILD) += llvm-bpf
 
-# builddir dependencies
+# # builddir dependencies
 # $(curdir)/autoconf/compile := $(curdir)/m4/compile
 # $(curdir)/automake/compile := $(curdir)/m4/compile $(curdir)/autoconf/compile $(curdir)/pkgconf/compile $(curdir)/xz/compile
 # $(curdir)/b43-tools/compile := $(curdir)/bison/compile
@@ -99,24 +99,24 @@ endif
 # $(curdir)/ccache/compile := $(curdir)/cmake/compile $(curdir)/zstd/compile
 # endif
 
-# in case there is no patch tool on the host we need to make patch tool a
-# dependency for tools which have patches directory
-$(foreach tool, $(tools-y), $(if $(wildcard $(curdir)/$(tool)/patches),$(eval $(curdir)/$(tool)/compile += $(curdir)/patch/compile)))
+# # in case there is no patch tool on the host we need to make patch tool a
+# # dependency for tools which have patches directory
+# $(foreach tool, $(tools-y), $(if $(wildcard $(curdir)/$(tool)/patches),$(eval $(curdir)/$(tool)/compile += $(curdir)/patch/compile)))
 
-$(foreach tool, $(filter-out xz,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/xz/compile))
+# $(foreach tool, $(filter-out xz,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/xz/compile))
 
-# make any tool depend on tar, xz and patch to ensure that archives can be unpacked and patched properly
-tools-core := tar xz patch
+# # make any tool depend on tar, xz and patch to ensure that archives can be unpacked and patched properly
+# tools-core := tar xz patch
 
-$(foreach tool, $(tools-y), $(eval $(curdir)/$(tool)/compile += $(patsubst %,$(curdir)/%/compile,$(tools-core))))
-tools-y += $(tools-core)
+# $(foreach tool, $(tools-y), $(eval $(curdir)/$(tool)/compile += $(patsubst %,$(curdir)/%/compile,$(tools-core))))
+# tools-y += $(tools-core)
 
-# make core tools depend on sed and flock
-$(foreach tool, $(filter-out xz,$(tools-core)), $(eval $(curdir)/$(tool)/compile += $(curdir)/sed/compile))
-$(curdir)/xz/compile += $(curdir)/flock/compile
+# # make core tools depend on sed and flock
+# $(foreach tool, $(filter-out xz,$(tools-core)), $(eval $(curdir)/$(tool)/compile += $(curdir)/sed/compile))
+# $(curdir)/xz/compile += $(curdir)/flock/compile
 
-$(curdir)/sed/compile := $(curdir)/flock/compile $(curdir)/xz/compile
-tools-y += flock sed
+# $(curdir)/sed/compile := $(curdir)/flock/compile $(curdir)/xz/compile
+# tools-y += flock sed
 
 $(curdir)/autoremove := 1
 $(curdir)/builddirs := $(tools-y) $(tools-dep) $(tools-)
