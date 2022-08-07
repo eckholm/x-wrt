@@ -111,6 +111,7 @@ ramips_setup_interfaces()
 			"0:lan" "6@eth0"
 		;;
 	dlink,dir-810l|\
+	netcore,nw5212|\
 	netgear,jwnr2010-v5|\
 	phicomm,k2-v22.4|\
 	phicomm,k2-v22.5|\
@@ -206,6 +207,7 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"2:lan:2" "3:lan:1" "4:wan" "6@eth0"
 		;;
+	netgear,pr2000|\
 	nexx,wt3020-4m|\
 	nexx,wt3020-8m)
 		ucidef_add_switch "switch0" \
@@ -307,7 +309,7 @@ ramips_setup_macs()
 		;;
 	asus,rt-ac51u|\
 	asus,rt-ac54u)
-		lan_mac=$(macaddr_add "$(mtd_get_mac_binary factory 0x28)" 4)
+		lan_mac=$(mtd_get_mac_binary factory 0x22)
 		;;
 	dlink,dch-m225)
 		lan_mac=$(mtd_get_mac_ascii factory lanmac)
@@ -407,7 +409,6 @@ ramips_setup_macs()
 		;;
 	esac
 
-	[ -n "$lan_mac" ] || lan_mac=$(cat /sys/class/net/eth0/address)
 	[ -n "$lan_mac" ] && ucidef_set_interface_macaddr "lan" $lan_mac
 	[ -n "$wan_mac" ] && ucidef_set_interface_macaddr "wan" $wan_mac
 	[ -n "$label_mac" ] && ucidef_set_label_macaddr $label_mac

@@ -150,6 +150,7 @@ platform_do_upgrade() {
 	xwrt,wr1800k-ax-norplusemmc)
 		norplusemmc_do_upgrade "$1"
 		;;
+	zyxel,lte3301-plus|\
 	zyxel,nr7101)
 		fw_setenv CheckBypass 0
 		fw_setenv Image1Stable 0
