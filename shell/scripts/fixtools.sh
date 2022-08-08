@@ -13,7 +13,9 @@ ln -sf ${NX_tools_python} ./staging_dir/host/bin/python3
 # base-files: fix Segmentation fault (core dumped)
 # https://paste.debian.net/1241483
 
-make package/ucert/{clean,compile}
+# make package/ucert/{clean,compile}
+# find build_dir/{host*,toolchain-*} -name .built\* -exec touch {} \;
+# touch staging_dir/{host*,toolchain-*,target-*}/stamp/.*
 
-find build_dir/{host*,toolchain-*} -name .built\* -exec touch {} \;
-touch staging_dir/{host*,toolchain-*,target-*}/stamp/.*
+sed -i "s/^CONFIG_SIGNED_PACKAGES=y/CONFIG_SIGNED_PACKAGES=n/g" .config
+
