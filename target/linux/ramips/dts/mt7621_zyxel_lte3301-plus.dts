@@ -148,19 +148,15 @@
 	};
 };
 
-&ethernet {
-	pinctrl-0 = <&mdio_pins>, <&rgmii1_pins>;
+&gmac0 {
+	nvmem-cells = <&macaddr_factory_fe6e>;
+	nvmem-cell-names = "mac-address";
 };
 
 &rgmii2_pins {
 	rgmii2 {
 		function = "gpio";
 	};
-};
-
-&gmac0 {
-	nvmem-cells = <&macaddr_factory_fe6e>;
-	nvmem-cell-names = "mac-address";
 };
 
 &switch0 {
