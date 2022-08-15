@@ -145,8 +145,9 @@
 	};
 };
 
-&rgmii2_pins {
-	rgmii2 {
+&state_default {
+	gpio {
+		groups = "wdt", "i2c", "uart2";
 		function = "gpio";
 	};
 };

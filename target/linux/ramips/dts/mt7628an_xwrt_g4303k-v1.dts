@@ -159,12 +159,10 @@
 	status = "okay";
 };
 
-&pinctrl {
-	state_default: pinctrl0 {
-		gpio {
-			groups = "gpio", "i2c", "i2s", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "refclk", "wled_an";
-			function = "gpio";
-		};
+&state_default {
+	gpio {
+		groups = "gpio", "i2c", "i2s", "p0led_an", "p1led_an", "p2led_an", "p3led_an", "p4led_an", "refclk", "wled_an";
+		function = "gpio";
 	};
 };
 

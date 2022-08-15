@@ -44,8 +44,13 @@
 	};
 };
 
-&rgmii2_pins {
-	rgmii2 {
-		function = "gpio";
-	};
+&ethernet {
+	pinctrl-0 = <&mdio_pins>, <&rgmii1_pins>;
+};
+
+&state_default {
+        gpio {
+                groups = "uart3", "rgmii2";
+                function = "gpio";
+        };
 };

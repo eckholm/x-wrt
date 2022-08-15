@@ -228,17 +228,15 @@
 	};
 };
 
-&pinctrl {
-	state_default: pinctrl0 {
-		gpio {
-			groups = "i2c", "jtag", "uart3";
-			function = "gpio";
-		};
+&state_default {
+	gpio {
+		groups = "i2c", "jtag", "uart3";
+		function = "gpio";
+	};
 
-		uart2 {
-			mtk,group = "uart2";
-			mtk,function = "uart2";
-		};
+	uart2 {
+		groups = "uart2";
+		function = "uart2";
 	};
 };
 

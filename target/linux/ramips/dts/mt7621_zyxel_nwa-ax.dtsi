@@ -138,3 +138,10 @@
 		reg = <0x1fff8 0x6>;
 	};
 };
+
+&state_default {
+	gpio {
+		groups = "uart3";
+		function = "gpio";
+	};
+};

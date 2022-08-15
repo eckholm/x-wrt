@@ -111,17 +111,15 @@
 	};
 };
 
-&pinctrl {
-	state_default: pinctrl0 {
-		gpio {
-			groups = "rgmii1";
-			function = "gpio";
-		};
+&state_default {
+	gpio {
+		groups = "rgmii1";
+		function = "gpio";
+	};
 
-		pa {
-			groups = "pa";
-			function = "pa";
-		};
+	pa {
+		groups = "pa";
+		function = "pa";
 	};
 };
 

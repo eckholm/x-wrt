@@ -149,6 +149,13 @@
 	};
 };
 
+&state_default {
+	gpio {
+		groups = "sdhci";
+		function = "gpio";
+	};
+};
+
 &factory {
 	compatible = "nvmem-cells";
 	#address-cells = <1>;

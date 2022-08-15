@@ -152,8 +152,9 @@
 	};
 };
 
-&rgmii2_pins {
-	rgmii2 {
+&state_default {
+	gpio {
+		groups = "wdt", "rgmii2", "jtag";
 		function = "gpio";
 	};
 };
