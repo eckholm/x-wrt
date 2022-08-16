@@ -118,6 +118,7 @@
 		mtd-mac-address = <&factory 0x4>;
 		nvmem-cells = <&macaddr_factory_4>;
 		nvmem-cell-names = "mac-address";
+		mediatek,disable-radar-background;
 	};
 };
 
