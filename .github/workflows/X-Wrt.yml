@@ -1,5 +1,5 @@
 
-name: X-Wrt
+name: X-Wrt test
 
 on:
   push:
